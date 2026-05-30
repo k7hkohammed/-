@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام التشفير المتطور V4</title>
+    <style>
+        :root {
+            --bg-dark: #060913;
+            --panel-bg: rgba(10, 15, 30, 0.93);
+            --neon-blue: #4facfe;
+            --neon-cyan: #00f2fe;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background: linear-gradient(125deg, #060913, #0f172a, #020617, #1e1b4b, #060913);
+            background-size: 400% 400%;
+            animation: RGBWave 25s ease infinite;
+        }
+
+        @keyframes RGBWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: var(--panel-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            background-image: linear-gradient(var(--panel-bg), var(--panel-bg)), linear-gradient(90deg, #00f2fe, #4facfe, #00ff87, #60a5fa, #00f2fe);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            background-size: 300% 100%;
+            animation: BorderRGB 15s linear infinite;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            animation: slideUpIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+
+        @keyframes BorderRGB {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 300% 0%; }
+        }
+
+        @keyframes slideUpIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        h4 {
+            color: var(--neon-cyan);
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            text-align: right;
+        }
+
+        p {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+            background-color: #020617;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--neon-blue);
+            outline: none;
+            box-shadow: 0 0 12px rgba(79, 172, 254, 0.3);
+            background-color: #091124;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            color: #000;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
+        }
+
+        button:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
+
+        .btn-decrypt {
+            background: transparent;
+            color: #00f2fe;
+            border: 1px solid #00f2fe;
+        }
+
+        .btn-decrypt:active {
+            background: rgba(0, 242, 254, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #result {
+            background-color: #020617;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+            word-break: break-all;
+            margin-top: 10px;
+            text-align: left;
+            direction: ltr;
+            max-height: 120px;
+            overflow-y: auto;
+            color: #38bdf8;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .instruction-box {
+            background-color: rgba(2, 6, 23, 0.7);
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+            text-align: right;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .instruction-box ul {
+            margin: 5px 0 0 0;
+            padding-right: 20px;
+            color: #94a3b8;
+        }
+
+        .instruction-box li {
+            margin-bottom: 6px;
+        }
+
+        .pulse-glow {
+            animation: successPulse 0.5s ease-out;
+        }
+
+        @keyframes successPulse {
+            0% { box-shadow: 0 0 0px #00f2fe; border-color: #00f2fe; }
+            50% { box-shadow: 0 0 20px #00f2fe; border-color: #00f2fe; }
+            100% { box-shadow: 0 0px #00f2fe; border-color: #1e293b; }
+        }
+
+        .status {
+            font-size: 11px;
+            color: #4facfe;
+            margin-top: 15px;
+            opacity: 0.5;
+        }
+    </style>
+    <!-- مكتبة التشفير الأساسية -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+
+    <div id="login-screen" class="container">
+        <h2>نظام التشفير الذكي</h2>
+        <p>أدخل رمز العبور لتشغيل اللوحة:</p>
+        <input type="password" id="site-password" placeholder="•••••••••••••" style="text-align: center;">
+        <button onclick="checkPassword()">تشغيل النظام</button>
+        <p id="login-error" style="color: #f43f5e; font-size: 13px; margin: 5px 0 0 0; font-weight: bold;"></p>
+        <div class="status">سعة حزمة البيانات: 31.0 MB</div>
+    </div>
+
+    <div id="crypto-screen" class="container hidden">
+        <h2>لوحة التشفير المتطورة</h2>
+        <p>النظام يدعم اللغتين العربية والإنجليزية وعكس العمليات</p>
+        
+        <textarea id="input-text" rows="4" placeholder="اكتب النص المراد معالجته..."></textarea>
+        <input type="text" id="secret-key" placeholder="مفتاح الحماية الخاص (اختياري)">
+
+        <div class="btn-group">
+            <button onclick="handleEncrypt()">تشفير 🔒</button>
+            <button onclick="handleDecrypt()" class="btn-decrypt">فك التشفير 🔓</button>
+        </div>
+
+        <h3 style="font-size: 15px; margin-top: 15px; text-align: right; color: #94a3b8;">البيانات الناتجة:</h3>
+        <div id="result">بانتظار المدخلات...</div>
+
+        <div class="instruction-box">
+            <h4>💡 دليل استخدام النظام بالتفصيل:</h4>
+            <strong>1. كيف تشفّر نصاً؟</strong>
+            <ul>
+                <li>اكتب كلامك الطبيعي (عربي أو إنجليزي) في الحقل الأول فوق.</li>
+                <li>(اختياري) اكتب كلمة سر خاصة بك في حقل "مفتاح الحماية" لزيادة التعقيد.</li>
+                <li>اضغط زر <b>"تشفير 🔒"</b>، سيتحول كلامك فوراً في الأسفل إلى رموز معقدة مستحيل يفهمها أي بشر. انسخها وأرسلها لمن تحب!</li>
+            </ul>
+            <strong>2. كيف تفك تشفير نص وصلك?</strong>
+            <ul>
+                <li>انسخ الرموز المعقدة المشفرة التي وصلتك، وضعها في الحقل الأول فوق.</li>
+                <li>إذا كان المرسل قد استخدم "مفتاح حماية" خاص، يجب أن تكتب نفس المفتاح في الحقل الثاني.</li>
+                <li>اضغط زر <b>"فك التشفير 🔓"</b>، وسيقوم النظام بعكس العملية بالكامل ليعيد لك النص الأصلي المفهوم بدقة.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // هنا تم تشفير الرمز مالتك الأصلي ومحد راح يعرفه بالكون غيرك
+        const HASHED_PASSWORD = "302e60408ca46c05a0d3b6641b9b1ee661005a766cc7e268f7f526b7bd4d60a5";
+
+        function checkPassword() {
+            const entered = document.getElementById('site-password').value;
+            
+            // نقوم بتشفير الرمز المدخل فوراً لمقارنته بالرمز المشفر الفوق
+            const enteredHashed = CryptoJS.SHA256(entered).toString();
+
+            if(enteredHashed === HASHED_PASSWORD) {
+                const loginWin = document.getElementById('login-screen');
+                loginWin.style.opacity = '0';
+                loginWin.style.transform = 'scale(0.95)';
+                loginWin.style.transition = 'all 0.3s ease';
+                
+                setTimeout(() => {
+                    loginWin.classList.add('hidden');
+                    document.getElementById('crypto-screen').classList.remove('hidden');
+                }, 300);
+            } else {
+                document.getElementById('login-error').innerText = "الرمز غير صحيح، حاول مجدداً.";
+            }
+        }
+
+        function triggerResultAnimation() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.classList.remove('pulse-glow');
+            void resultDiv.offsetWidth; 
+            resultDiv.classList.add('pulse-glow');
+        }
+
+        function handleEncrypt() {
+            const text = document.getElementById('input-text').value;
+            let key = document.getElementById('secret-key').value;
+            if(!text) { alert("اكتب شيئاً أولاً!"); return; }
+            if(!key) { key = "Cyber_Core_2026"; }
+
+            try {
+                const encrypted = CryptoJS.AES.encrypt(text, key).toString();
+                document.getElementById('result').innerText = encrypted;
+                triggerResultAnimation();
+            } catch (error) {
+                document.getElementById('result').innerText = "حدث خطأ أثناء التشفير!";
+            }
+        }
+
+        function handleDecrypt() {
+            const cipherText = document.getElementById('input-text').value;
+            let key = document.getElementById('secret-key').value;
+            if(!cipherText) { alert("أدخل النص المشفر أولاً!"); return; }
+            if(!key) { key = "Cyber_Core_2026"; }
+
+            try {
+                const bytes = CryptoJS.AES.decrypt(cipherText, key);
+                const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+                if(decrypted) {
+                    document.getElementById('result').innerText = decrypted;
+                    triggerResultAnimation();
+                } else {
+                    document.getElementById('result').innerText = "فشل فك التشفير! المفتاح غير متطابق.";
+                }
+            } catch (error) {
+                document.getElementById('result').innerText = "خطأ في بنية النص!";
+            }
+        }
+    </script>
+</body>
+</html>
+
