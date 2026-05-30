@@ -236,86 +236,85 @@
             <strong>2. كيف تفك تشفير نص وصلك؟</strong>
             <ul>
                 <li>انسخ الرموز المعقدة المشفرة التي وصلتك، وضعها في الحقل الأول فوق.</li>
-                <li>إذا كان المرسل قد استخدم "مفتاح حماية" خاص، يجب أن تكتب نفس المفتاح في الحقل الثاني.</li><li>إذا كان المرسل قد استخدم "مفتاح حماية" خاص، يجب أن تكتب نفس المفتاح في الحقل الثاني.</li> <li>إذا كان المرسل قد استخدم "مفتاح حماية" خاص، يجب أن تكتب نفس المفتاح في الحقل الثاني.</li>
-                <li>اضغط زر <b>"فك التشفير 🔓"</b>، وسيقوم النظام بعكس العملية بالكامل ليعيد لك النص الأصلي المفهوم بدقة.</li><li>اضغط زر <b>"فك التشفير 🔓"</b>، وسيقوم النظام بعكس العملية بالكامل ليعيد لك النص الأصلي المفهوم بدقة.</li> <li>اضغط زر <b>"فك التشفير 🔓"</b>، وسيقوم النظام بعكس العملية بالكامل ليعيد لك النص الأصلي المفهوم بدقة.</li>
-            </ul></ul>
-        </div></div>
-    </div></div>
+                <li>إذا كان المرسل قد استخدم "مفتاح حماية" خاص، يجب أن تكتب نفس المفتاح في الحقل الثاني.</li>
+                <li>اضغط زر <b>"فك التشفير 🔓"</b>، وسيقوم النظام بعكس العملية بالكامل ليعيد لك النص الأصلي المفهوم بدقة.</li>
+            </ul>
+        </div>
+    </div>
 
-    <script><script>
-        // الرمز السري المشفر لـ roman2013/66// الرمز السري المشفر لـ roman2013/66 // الرمز السري المشفر لـ roman2013/66
-        const HASHED_PASSWORD = "302e60408ca46c05a0d3b6641b9b1ee661005a766cc7e268f7f526b7bd4d60a5";const HASHED_PASSWORD = "302e60408ca46c05a0d3b6641b9b1ee661005a766cc7e268f7f526b7bd4d60a5";
+    <script>
+        // هنا الشفرة الجديدة الخاصة بكلمة السر huda ومحد يگدر يحزرها
+        const HASHED_PASSWORD = "5d506bc66627f12bc85ec729a6da834927b1359d9c288bde193006cb56ec236b";
 
-        // دالة تشفير سريعة ومدمجة بداخل المتصفح مباشرة بدون مكتبات خارجية لحل التعليق// دالة تشفير سريعة ومدمجة بداخل المتصفح مباشرة بدون مكتبات خارجية لحل التعليق // دالة تشفير سريعة ومدمجة بداخل المتصفح مباشرة بدون مكتبات خارجية لحل التعليق
-        async function sha256(message) {async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(message);                    const msgBuffer = new TextEncoder().encode(message);                    
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }}
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);                    
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
 
-        async function checkPassword() {async function checkPassword() {
-            const entered = document.getElementById('site-password').value;const entered = document.getElementById('site-password').value;
+        async function checkPassword() {
+            const entered = document.getElementById('site-password').value;
             
-            // تشفير الرمز المدخل ومقارنته// تشفير الرمز المدخل ومقارنته // تشفير الرمز المدخل ومقارنته
-            const enteredHashed = await sha256(entered);const enteredHashed = await sha256(entered);
+            // تشفير الرمز المدخل ومقارنته بالـ Hash الخاص بـ huda
+            const enteredHashed = await sha256(entered);
 
-            if(enteredHashed === HASHED_PASSWORD) {if(enteredHashed === HASHED_PASSWORD) {
-                const loginWin = document.getElementById('login-screen');const loginWin = document.getElementById('login-screen');
-                loginWin.style.opacity = '0';loginWin.style.opacity = '0';
-                loginWin.style.transform = 'scale(0.95)';loginWin.style.transform = 'scale(0.95)';
-                loginWin.style.transition = 'all 0.3s ease';loginWin.style.transition = 'all 0.3s ease';
+            if(enteredHashed === HASHED_PASSWORD) {
+                const loginWin = document.getElementById('login-screen');
+                loginWin.style.opacity = '0';
+                loginWin.style.transform = 'scale(0.95)';
+                loginWin.style.transition = 'all 0.3s ease';
                 
-                setTimeout(() => {setTimeout(() => {
-                    loginWin.classList.add('hidden');loginWin.classList.add('hidden');
-                    document.getElementById('crypto-screen').classList.remove('hidden');document.getElementById('crypto-screen').classList.remove('hidden');
-                }, 300);}, 300);
-            } else {} else {
-                document.getElementById('login-error').innerText = "الرمز غير صحيح، حاول مجدداً.";document.getElementById('login-error').innerText = "الرمز غير صحيح، حاول مجدداً."; document.getElementById('login-error').innerText = "الرمز غير صحيح، حاول مجدداً.";
-            }}
-        }}
+                setTimeout(() => {
+                    loginWin.classList.add('hidden');
+                    document.getElementById('crypto-screen').classList.remove('hidden');
+                }, 300);
+            } else {
+                document.getElementById('login-error').innerText = "الرمز غير صحيح، حاول مجدداً.";
+            }
+        }
 
-        function triggerResultAnimation() {function triggerResultAnimation() {
-            const resultDiv = document.getElementById('result');const resultDiv = document.getElementById('result');
-            resultDiv.classList.remove('pulse-glow');resultDiv.classList.remove('pulse-glow');
-            void resultDiv.offsetWidth; void resultDiv.offsetWidth; 
-            resultDiv.classList.add('pulse-glow');resultDiv.classList.add('pulse-glow');
-        }}
+        function triggerResultAnimation() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.classList.remove('pulse-glow');
+            void resultDiv.offsetWidth; 
+            resultDiv.classList.add('pulse-glow');
+        }
 
-        function handleEncrypt() {function handleEncrypt() {
-            const text = document.getElementById('input-text').value;const text = document.getElementById('input-text').value;
-            let key = document.getElementById('secret-key').value;let key = document.getElementById('secret-key').value;
-            if(!text) { alert("اكتب شيئاً أولاً!"); return; }if(!text) { alert("اكتب شيئاً أولاً!"); return; } if(!text) { alert("اكتب شيئاً أولاً!"); return; }
-            if(!key) { key = "Cyber_Core_2026"; }if(!key) { key = "Cyber_Core_2026"; }
+        function handleEncrypt() {
+            const text = document.getElementById('input-text').value;
+            let key = document.getElementById('secret-key').value;
+            if(!text) { alert("اكتب شيئاً أولاً!"); return; }
+            if(!key) { key = "Cyber_Core_2026"; }
 
-            try {try {
-                const encrypted = CryptoJS.AES.encrypt(text, key).toString();const encrypted = CryptoJS.AES.encrypt(text, key).toString();
-                document.getElementById('result').innerText = encrypted;document.getElementById('result').innerText = encrypted;
-                triggerResultAnimation();triggerResultAnimation();
-            } catch (error) {} catch (error) {
-                document.getElementById('result').innerText = "حدث خطأ أثناء التشفير!";document.getElementById('result').innerText = "حدث خطأ أثناء التشفير!"; document.getElementById('result').innerText = "حدث خطأ أثناء التشفير!";
-            }}
-        }}
+            try {
+                const encrypted = CryptoJS.AES.encrypt(text, key).toString();
+                document.getElementById('result').innerText = encrypted;
+                triggerResultAnimation();
+            } catch (error) {
+                document.getElementById('result').innerText = "حدث خطأ أثناء التشفير!";
+            }
+        }
 
-        function handleDecrypt() {function handleDecrypt() {
-            const cipherText = document.getElementById('input-text').value;const cipherText = document.getElementById('input-text').value;
-            let key = document.getElementById('secret-key').value;let key = document.getElementById('secret-key').value;
-            if(!cipherText) { alert("أدخل النص المشفر أولاً!"); return; }if(!cipherText) { alert("أدخل النص المشفر أولاً!"); return; } if(!cipherText) { alert("أدخل النص المشفر أولاً!"); return; }
-            if(!key) { key = "Cyber_Core_2026"; }if(!key) { key = "Cyber_Core_2026"; }
+        function handleDecrypt() {
+            const cipherText = document.getElementById('input-text').value;
+            let key = document.getElementById('secret-key').value;
+            if(!cipherText) { alert("أدخل النص المشفر أولاً!"); return; }
+            if(!key) { key = "Cyber_Core_2026"; }
 
-            try {try {
-                const bytes = CryptoJS.AES.decrypt(cipherText, key);const bytes = CryptoJS.AES.decrypt(cipherText, key);
-                const decrypted = bytes.toString(CryptoJS.enc.Utf8);const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-                if(decrypted) {if(decrypted) {
-                    document.getElementById('result').innerText = decrypted;document.getElementById('result').innerText = decrypted;
-                    triggerResultAnimation();triggerResultAnimation();
-                } else {} else {
-                    document.getElementById('result').innerText = "فشل فك التشفير! المفتاح غير متطابق.";document.getElementById('result').innerText = "فشل فك التشفير! المفتاح غير متطابق."; document.getElementById('result').innerText = "فشل فك التشفير! المفتاح غير متطابق.";
-                }}
-            } catch (error) {} catch (error) {
-                document.getElementById('result').innerText = "خطأ في بنية النص!";document.getElementById('result').innerText = "خطأ في بنية النص!"; document.getElementById('result').innerText = "خطأ في بنية النص!";
-            }}
-        }}
-    </script></script>
+            try {
+                const bytes = CryptoJS.AES.decrypt(cipherText, key);
+                const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+                if(decrypted) {
+                    document.getElementById('result').innerText = decrypted;
+                    triggerResultAnimation();
+                } else {
+                    document.getElementById('result').innerText = "فشل فك التشفير! المفتاح غير متطابق.";
+                }
+            } catch (error) {
+                document.getElementById('result').innerText = "خطأ في بنية النص!";
+            }
+        }
+    </script>
 </body>
 </html>
